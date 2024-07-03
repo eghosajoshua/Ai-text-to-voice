@@ -72,10 +72,7 @@ function SideBar({ setOpenSideBar, setLoggedIn }) {
             <FaHome size={24} className="dark:text-slate-200" />
             <p className="text-lg dark:text-slate-200">Restore purchases</p>
           </div>
-          <div
-            onClick={() => setWebString("privacy-policy")}
-            className="flex gap-3 items-center mr-6 rounded-tr-full rounded-br-full p-4"
-          >
+          <div className="flex gap-3 items-center mr-6 rounded-tr-full rounded-br-full p-4">
             <FaHome size={24} className="dark:text-slate-200" />
             <p className="text-lg dark:text-slate-200">Privacy Policy</p>
           </div>
