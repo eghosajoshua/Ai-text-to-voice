@@ -4,17 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Header from "../components/header";
 import { PiWaveformBold } from "react-icons/pi";
 import Sheet from "react-modal-sheet";
-import { FaBars, FaDownload, FaLock, FaTrash } from "react-icons/fa6";
-import { CgLoadbar } from "react-icons/cg";
-import { FaBullseye, FaPlay } from "react-icons/fa";
+import { FaDownload, FaTrash } from "react-icons/fa6";
+import { FaPlay } from "react-icons/fa";
 import SideBar from "../components/sidebar";
-import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import Swal2 from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  // c85b93eb0af9adb3a3c8411404a9f710
   const [stability, setStability] = useState(50);
   const [similarity, setSimilarity] = useState(75);
   const [openSheet, setOpenSheet] = useState(false);
@@ -29,7 +26,6 @@ function Home() {
   const [gettingVoices, setGettingVoices] = useState(true);
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
-  const [user, setUser] = useState(null);
   let textAreaRef = useRef(null);
   let navigate = useNavigate();
   const apiKey = "a3ee62e1e845e809a9a64024a26e7989";
