@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import SmallHeader from "../components/small_header";
-import { FaCheck } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -40,9 +39,7 @@ function ActivateApp() {
           whileTap={{ scale: 1.05 }}
           className="bg-sky-600 mt-6 p-4 flex items-center justify-center rounded-full"
         >
-          <p className="text-slate-200 font-semibold text-xl">
-            $1.99 / week
-          </p>
+          <p className="text-slate-200 font-semibold text-xl">$1.99 / week</p>
         </motion.div>
         <motion.div
           whileTap={{ scale: 1.05 }}

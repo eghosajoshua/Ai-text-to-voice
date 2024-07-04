@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Swal2 from "sweetalert2";
 import { FaCoins } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { setWebString } from "../utils/bridge";
 
 function SideBar({ setOpenSideBar, setLoggedIn }) {
   let navigate = useNavigate();
@@ -22,7 +21,6 @@ function SideBar({ setOpenSideBar, setLoggedIn }) {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.removeItem("user");
-        setWebString("");
         navigate("/#/get-started");
         setLoggedIn(false);
       }
@@ -79,13 +77,6 @@ function SideBar({ setOpenSideBar, setLoggedIn }) {
           <div className="flex gap-3 items-center p-4 mr-6 rounded-tr-full rounded-br-full">
             <FaHome size={24} className="dark:text-slate-200" />
             <p className="text-lg dark:text-slate-200">Terms and Condition</p>
-          </div>
-          <div
-            onClick={() => logOut()}
-            className="flex gap-3 items-center p-4 mr-6 rounded-tr-full rounded-br-full"
-          >
-            <FaHome size={24} className="dark:text-slate-200" />
-            <p className="text-lg dark:text-slate-200">Log out</p>
           </div>
         </div>
       </motion.div>

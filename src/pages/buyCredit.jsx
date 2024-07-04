@@ -1,61 +1,8 @@
-import React, { useEffect , useState} from "react";
+import React from "react";
 import SmallHeader from "../components/small_header";
 import { motion } from "framer-motion";
-import { setWebString, getWebString } from "../utils/bridge";
-import { toast } from "react-toastify";
-import supabase from "../scripts/supabase";
 
 function BuyCredit() {
-  let [previousWebString, setPreviousWebString] = useState("");
-
-  //monitor webString Changes
-  useEffect(() => {
-    let stringChecker = setInterval(() => {
-      if (getWebString() != null) {
-        if (previousWebString != getWebString()) {
-          setPreviousWebString("");
-          let creditBought = getWebString();
-          if (creditBought.indexOf("creditsuccess") >= 0) {
-            let credit = parseInt(creditBought.split("-")[1]);
-            creditUser(credit);
-          }
-        }
-      }
-    }, 500);
-
-    return () => clearInterval(stringChecker);
-  }, []);
-
-
-  let creditUser = async (val) => {
-    toast.success("credited " + val);
-    let { data, error } = supabase
-      .from("users")
-      .select()
-      .eq("email", localStorage.getItem("user"));
-    if (error == null) {
-      let user = data[0];
-      let currentCredit = user.credit;
-      let newCredit = currentCredit + val;
-
-      let { error } = supabase
-        .from("users")
-        .update({ credit: newCredit })
-        .eq("email", localStorage.getItem("user"));
-
-      if (error == null) {
-        toast.success("credit added successfully");
-      } else {
-        toast.error("something went wrong");
-      }
-    } else {
-      toast.error("something went wrong");
-    }
-  };
-
-  let getCredit = (val) => {
-    setWebString("get" + val + "credits");
-  };
   return (
     <>
       <SmallHeader title={"Home"} link={"/"} />
@@ -64,7 +11,6 @@ function BuyCredit() {
           Purchase Credit
         </h1>
         <motion.div
-          onClick={() => getCredit(1000)}
           whileTap={{ scale: 1.05 }}
           className="bg-slate-900 p-4 rounded-lg justify-between shadow-lg flex items-center"
         >
@@ -90,7 +36,6 @@ function BuyCredit() {
           </div>
         </motion.div>
         <motion.div
-          onClick={() => getCredit(5000)}
           whileTap={{ scale: 1.05 }}
           className="bg-slate-900 p-4 rounded-lg justify-between shadow-lg flex items-center"
         >
@@ -103,7 +48,6 @@ function BuyCredit() {
           </div>
         </motion.div>
         <motion.div
-          onClick={() => getCredit(10000)}
           whileTap={{ scale: 1.05 }}
           className="bg-slate-900 p-4 rounded-lg justify-between shadow-lg flex items-center"
         >

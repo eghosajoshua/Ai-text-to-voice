@@ -11,17 +11,15 @@ import SideBar from "../components/sidebar";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import Swal2 from "sweetalert2";
-import supabase from "../scripts/supabase";
 import { useNavigate } from "react-router-dom";
-// import "dotenv/config.js";
 
-function Home({ setLoggedIn }) {
+function Home() {
   // c85b93eb0af9adb3a3c8411404a9f710
   const [stability, setStability] = useState(50);
   const [similarity, setSimilarity] = useState(75);
   const [openSheet, setOpenSheet] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
-  const [remainingCredit, setRemainingCredit] = useState(0);
+  const [remainingCredit, setRemainingCredit] = useState(50);
   const [currentText, setCurrentText] = useState("");
   const [audioAvailable, setAudioAvailable] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -32,46 +30,25 @@ function Home({ setLoggedIn }) {
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
   const [user, setUser] = useState(null);
-  const apiKey = "ea6a21b9e8e497cca264a9dad6758d2d";
   let textAreaRef = useRef(null);
   let navigate = useNavigate();
+  const apiKey = "a3ee62e1e845e809a9a64024a26e7989";
 
   useEffect(() => {
     getVoices();
-    getUserData();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(selectedVoice);
-  // }, [selectedVoice]);
 
   const onDismiss = () => {
     setOpenSheet(false);
   };
 
-  let getUserData = async () => {
-    console.log("start");
-    let { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("email", localStorage.getItem("user"));
-    if (error == null) {
-      setUser(data[0]);
-      setRemainingCredit(data[0].credit);
-    } else {
-      toast.warn("something went wrong");
-    }
-    console.log("finish");
-  };
-
   let getVoices = () => {
     console.log("start voices");
-    const options = {
+
+    fetch("https://api.elevenlabs.io/v1/voices", {
       method: "GET",
       headers: { "xi-api-key": apiKey },
-    };
-
-    fetch("https://api.elevenlabs.io/v1/voices", options)
+    })
       .then((res) => res.json())
       .then((res) => {
         setVoices(res.voices.reverse());
@@ -86,20 +63,6 @@ function Home({ setLoggedIn }) {
     const ctx = new AudioContext();
     setGenerating(true);
     setAudioAvailable(false);
-    const options = {
-      method: "POST",
-      headers: {
-        "xi-api-key": apiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: currentText,
-        voice_settings: {
-          stability: (stability / 100).toFixed(1),
-          similarity_boost: (similarity / 100).toFixed(1),
-        },
-      }),
-    };
 
     let res = await fetch(
       "https://api.elevenlabs.io/v1/text-to-speech/" +
@@ -107,7 +70,20 @@ function Home({ setLoggedIn }) {
           ? selectedVoice["voice_id"]
           : "hwnuNyWkl9DjdTFykrN6") +
         "?output_format=mp3_44100_96",
-      options
+      {
+        method: "POST",
+        headers: {
+          "xi-api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: currentText,
+          voice_settings: {
+            stability: (stability / 100).toFixed(1),
+            similarity_boost: (similarity / 100).toFixed(1),
+          },
+        }),
+      }
     );
     if (res.status == 200 || res.status == 201) {
       setAudioAvailable(true);
@@ -115,10 +91,6 @@ function Home({ setLoggedIn }) {
       //reduce user credit
       let newCredit = remainingCredit - currentText.length;
       setRemainingCredit(newCredit);
-      await supabase
-        .from("users")
-        .update({ credit: newCredit })
-        .eq("email", localStorage.getItem("user"));
     } else {
       setGenerating(false);
       toast.error("something went wrong");
@@ -195,13 +167,7 @@ function Home({ setLoggedIn }) {
             className="ring-1 ring-slate-800 p-1 rounded-lg flex gap-2 items-center"
           >
             <img
-              src={
-                "https://oihsbnidciwfdtznmxdo.supabase.co/storage/v1/object/public/images/" +
-                (selectedVoice != null
-                  ? selectedVoice.name.toLowerCase()
-                  : "") +
-                ".png"
-              }
+              src=""
               className="h-[30px] rounded-full w-[30px] object-cover object-top"
               alt=""
             />
@@ -399,15 +365,7 @@ function Home({ setLoggedIn }) {
                     key={voice.voice_id}
                     className="relative rounded-xl overflow-hidden shadow-lg h-32"
                   >
-                    <img
-                      src={
-                        "https://oihsbnidciwfdtznmxdo.supabase.co/storage/v1/object/public/images/" +
-                        voice.name.toLowerCase() +
-                        ".png"
-                      }
-                      alt=""
-                      className="object-cover"
-                    />
+                    <img src="" alt="" className="object-cover" />
                     <div className="absolute flex gap-2 items-center justify-center py-1 bottom-0 bg-black opacity-80 w-full">
                       <p className="text-slate-100 font-bold">{voice.name}</p>
                     </div>
@@ -421,9 +379,7 @@ function Home({ setLoggedIn }) {
       </Sheet>
       {/* sidebar */}
       <AnimatePresence>
-        {openSideBar && (
-          <SideBar setLoggedIn={setLoggedIn} setOpenSideBar={setOpenSideBar} />
-        )}
+        {openSideBar && <SideBar setOpenSideBar={setOpenSideBar} />}
       </AnimatePresence>
       <ToastContainer autoClose={1500} theme="dark" limit={2} />
     </>
