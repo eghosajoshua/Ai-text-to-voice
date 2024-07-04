@@ -1,4 +1,4 @@
-.# Ai Text to Voice
+# Ai Text to Voice
 
 Ai Text to Voice is a web application that converts text into speech using the 11 Labs API. Built with Vite and React.js, it offers a fast and efficient user experience for generating voice from text.
 
