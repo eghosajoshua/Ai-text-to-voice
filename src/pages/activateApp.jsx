@@ -9,7 +9,7 @@ function ActivateApp() {
     <>
       <SmallHeader link={"/"} title={"Home"} />
 
-      <div className="p-4 flex flex-col flex-1 overflow-y-scroll">
+      <div className="p-4 flex flex-col flex-1 max-w-lg mx-auto ">
         <h1 className="dark:text-slate-200 text-2xl text-center font-bold">
           Ugrade to premium
         </h1>

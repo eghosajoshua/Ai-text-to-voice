@@ -6,7 +6,7 @@ function BuyCredit() {
   return (
     <>
       <SmallHeader title={"Home"} link={"/"} />
-      <div className="p-4 flex flex-col flex-1 gap-4 overflow-y-scroll">
+      <div className="p-4 flex flex-col flex-1 gap-4  max-w-lg mx-auto ">
         <h1 className="dark:text-slate-200 text-2xl text-center font-bold">
           Purchase Credit
         </h1>

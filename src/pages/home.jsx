@@ -9,7 +9,6 @@ import { FaPlay } from "react-icons/fa";
 import SideBar from "../components/sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import Swal2 from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [stability, setStability] = useState(50);
@@ -23,11 +22,9 @@ function Home() {
   const [audio, setAudio] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
-  const [gettingVoices, setGettingVoices] = useState(true);
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
   let textAreaRef = useRef(null);
-  let navigate = useNavigate();
   const apiKey = "a3ee62e1e845e809a9a64024a26e7989";
 
   useEffect(() => {
@@ -39,8 +36,6 @@ function Home() {
   };
 
   let getVoices = () => {
-    console.log("start voices");
-
     fetch("https://api.elevenlabs.io/v1/voices", {
       method: "GET",
       headers: { "xi-api-key": apiKey },
@@ -48,11 +43,9 @@ function Home() {
       .then((res) => res.json())
       .then((res) => {
         setVoices(res.voices.reverse());
-        console.log(res.voices.reverse());
         setSelectedVoice(res.voices.reverse()[0]);
       })
       .catch((err) => console.error(err));
-    console.log("finish voices");
   };
 
   let generateAudio = async () => {
@@ -141,16 +134,14 @@ function Home() {
     playSound.buffer = res_cont;
     playSound.connect(ctx.destination);
     playSound.start(0);
-    playSound.onended = () => {
-      console.log("ended");
-    };
+    playSound.onended = () => {};
   };
 
   return (
     <>
       <Header setOpenSideBar={setOpenSideBar} />
       {/* body */}
-      <div className="p-1 overflow-x-hidden flex flex-col gap-2 overflow-y-scroll min-h-0 h-auto flex-1  m-2">
+      <div className="p-1 px-3 mx-auto flex flex-col gap-2 mt-4   max-w-lg  w-full ">
         {/* select voice */}
         <div className="p-4 bg-white dark:bg-slate-900 shadow-lg rounded-lg flex gap-3 justify-between items-center">
           <div className="flex gap-2 items-center">
@@ -163,7 +154,7 @@ function Home() {
             className="ring-1 ring-slate-800 p-1 rounded-lg flex gap-2 items-center"
           >
             <img
-              src=""
+              src="/imgs/aivoice.png"
               className="h-[30px] rounded-full w-[30px] object-cover object-top"
               alt=""
             />
@@ -327,7 +318,7 @@ function Home() {
           whileTap={{
             scale: 1.05,
           }}
-          className="p-4 bg-white dark:bg-slate-900 shadow-lg rounded-lg flex gap-3 justify-center items-center "
+          className="p-4 bg-white dark:bg-slate-900 shadow-lg rounded-lg flex gap-3 justify-center items-center mb-2"
         >
           <PiWaveformBold size={24} className="dark:text-slate-200 " />
 
@@ -342,6 +333,7 @@ function Home() {
         initialSnap={0}
         isOpen={openSheet}
         onClose={() => setOpenSheet(false)}
+        className="max-w-xl mx-auto"
       >
         <Sheet.Container>
           <Sheet.Header />
@@ -359,9 +351,13 @@ function Home() {
                       // setOpenSheet(false);
                     }}
                     key={voice.voice_id}
-                    className="relative rounded-xl overflow-hidden shadow-lg h-32"
+                    className="relative rounded-lg overflow-hidden shadow-lg h-32"
                   >
-                    <img src="" alt="" className="object-cover" />
+                    <img
+                      src="/imgs/aivoice.png"
+                      alt=""
+                      className="object-cover"
+                    />
                     <div className="absolute flex gap-2 items-center justify-center py-1 bottom-0 bg-black opacity-80 w-full">
                       <p className="text-slate-100 font-bold">{voice.name}</p>
                     </div>

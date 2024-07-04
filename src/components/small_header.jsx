@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 function SmallHeader({ title, link }) {
   return (
-    <header className="bg-white p-3 py-5 dark:bg-slate-900">
+    <header className="bg-white p-3 py-5 dark:bg-slate-900 sticky top-0 z-50">
       <Link to={link} className="flex gap-2 items-center ">
-        <FaArrowLeft className="dark:text-white"/>
+        <FaArrowLeft className="dark:text-white" />
         <p className="dark:text-white font-semibold text-lg">{title}</p>
       </Link>
     </header>
