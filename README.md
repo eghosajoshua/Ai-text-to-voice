@@ -80,6 +80,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Eghosa Joshua - [eghosajosh@gmail.com](mailto:eghosajosh@gmail.com)
+Ehimwinriabe Eghosa - [eghosajosh@gmail.com](mailto:eghosajosh@gmail.com)
 
-Author Website: [https://www.eghosajoshua.com](https://www.eghosajoshua.com)
+Author Portfolio: [https://www.eghosa.site](https://www.eghosa.site)
