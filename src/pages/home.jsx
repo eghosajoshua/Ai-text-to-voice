@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoMdPerson } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "../components/header";
 import { PiWaveformBold } from "react-icons/pi";
@@ -25,7 +25,7 @@ function Home() {
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
   let textAreaRef = useRef(null);
-  const apiKey = "a3ee62e1e845e809a9a64024a26e7989";
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
     getVoices();
@@ -72,7 +72,7 @@ function Home() {
             similarity_boost: (similarity / 100).toFixed(1),
           },
         }),
-      }
+      },
     );
     if (res.status == 200 || res.status == 201) {
       setAudioAvailable(true);
@@ -153,13 +153,10 @@ function Home() {
             whileTap={{ scale: 1.2 }}
             className="ring-1 ring-slate-800 p-1 rounded-lg flex gap-2 items-center"
           >
-            <img
-              src="/imgs/aivoice.png"
-              className="h-[30px] rounded-full w-[30px] object-cover object-top"
-              alt=""
-            />
             <p className="dark:text-slate-200">
-              {selectedVoice != null ? selectedVoice.name : ""}
+              {selectedVoice != null
+                ? selectedVoice.name.split("-")[0].trim()
+                : ""}
             </p>
             <IoIosArrowDown className="dark:text-slate-200" size={24} />
           </motion.div>
@@ -351,15 +348,13 @@ function Home() {
                       // setOpenSheet(false);
                     }}
                     key={voice.voice_id}
-                    className="relative rounded-lg overflow-hidden shadow-lg h-32"
+                    className="flex-col rounded-lg overflow-hidden shadow-lg  bg-slate-100 dark:bg-slate-800 flex items-center justify-end cursor-pointer"
                   >
-                    <img
-                      src="/imgs/aivoice.png"
-                      alt=""
-                      className="object-cover"
-                    />
-                    <div className="absolute flex gap-2 items-center justify-center py-1 bottom-0 bg-black opacity-80 w-full">
-                      <p className="text-slate-100 font-bold">{voice.name}</p>
+                    <IoMdPerson size={48} className="text-slate-400" h-fit />
+                    <div className=" flex gap-2 items-center justify-center py-1 px-4 bg-black opacity-80 w-full">
+                      <p className="text-slate-100 font-bold text-xs">
+                        {voice.name.split("-")[0].trim()}
+                      </p>
                     </div>
                   </motion.div>
                 ))}
